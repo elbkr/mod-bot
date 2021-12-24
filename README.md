@@ -34,7 +34,7 @@
 - Node v16 or higher
 
 ### Getting the files
-1. GitHub CLI: `gh repo clone elbkr/ticket-bot`
+1. GitHub CLI: `gh repo clone elbkr/mod-bot`
 2. Download and extract the zip
 3. Open with GitHub Desktop
 
