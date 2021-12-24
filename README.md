@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/elbkr/mod-bot">
-    <img src="readme/mod-bot.png" alt="mod-bot" width="500"/>
+    <img src="readme/mod-bot.png" alt="mod-bot" width="375"/>
   </a>
 </p>
 
