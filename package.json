@@ -1,0 +1,43 @@
+{
+  "name": "mod-bot",
+  "version": "1.0.0",
+  "description": "discord.js moderation bot using mongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elbkr/mod-bot.git"
+  },
+  "keywords": [
+    "discord-bot",
+    "discord.js",
+    "discord",
+    "moderation",
+    "moderation-bot",
+    "mongoDB"
+  ],
+  "author": "el bkr (https://github.com/elbkr)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elbkr/mod-bot/issues"
+  },
+  "homepage": "https://github.com/elbkr/mod-bot#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.7.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "bufferutil": "^4.0.5",
+    "chalk": "^4.0.0",
+    "discord-api-types": "^0.25.2",
+    "discord.js": "^13.4.0",
+    "dotenv": "^10.0.0",
+    "fs": "^0.0.1-security",
+    "glob": "^7.2.0",
+    "moment": "^2.29.1",
+    "mongoose": "^6.1.3",
+    "ms": "^2.1.3",
+    "utf-8-validate": "^5.0.7",
+    "util": "^0.12.4"
+  }
+}
