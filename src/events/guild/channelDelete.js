@@ -8,6 +8,10 @@ module.exports = class ChannelDelete extends Event {
   }
   async exec(channel) {
     if(!channel.guild) return;
+    if(channel.type === "GUILD_NEWS_THREAD") return;
+    if(channel.type === "GUILD_PUBLIC_THREAD") return;
+    if(channel.type === "GUILD_PRIVATE_THREAD ") return;
+
     const data = await this.client.getGuild({ _id: channel.guild.id });
 
     if (data.logsChannel) {
@@ -15,13 +19,12 @@ module.exports = class ChannelDelete extends Event {
       if (logsChannel) {
         let emb = new MessageEmbed()
             .setColor("#e15050")
-            .setAuthor({name:`${channel.guild.name}`, iconURL: `${channel.guild.iconURL()}`})
             .setTitle("Channel Deleted")
             .setDescription(`**${channel.name}** has been deleted`)
             .addField(`Channel`, `${channel.name}`, true)
             .setTimestamp();
 
-        channel.send({embeds: [emb]});
+        logsChannel.send({embeds: [emb]});
       }
     }
 

@@ -1,3 +1,4 @@
+const {MessageEmbed} = require("discord.js");
 
 module.exports = class RoleDelete extends Event {
   constructor() {
@@ -14,6 +15,21 @@ module.exports = class RoleDelete extends Event {
       let index = data.modRoles.indexOf(role.id);
       data.modRoles.splice(index, 1);
       await data.save();
+    }
+
+    if (data.logsChannel) {
+      let channel = await role.guild.channels.fetch(data.logsChannel);
+      if (channel) {
+        let emb = new MessageEmbed()
+            .setColor("#ea4e4e")
+            .setTitle("Role deleted")
+            .setDescription(`**${role.name}** deleted`)
+            .addField("Role", `${role.name}`, true)
+            .addField("Created at", `${role.createdAt}`, true)
+            .setTimestamp();
+
+        channel.send({embeds: [emb]});
+      }
     }
   }
 };

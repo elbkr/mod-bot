@@ -15,7 +15,6 @@ module.exports = class GuildBanAdd extends Event {
             if (channel) {
                     let emb = new MessageEmbed()
                         .setColor("#e15050")
-                        .setAuthor({name:`${ban.user.username}`, iconURL: `${ban.user.avatarURL()}`})
                         .setTitle("User Banned")
                         .setDescription(`**${ban.user.tag}** has been banned`)
                         .addField(`User`, `${ban.user}`, true)

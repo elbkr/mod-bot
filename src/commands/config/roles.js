@@ -63,7 +63,7 @@ module.exports = class Roles extends Interaction {
 
             if (old) {
                 return int.reply({
-                    content: `The role ${role.name} is already in the list!`,
+                    content: `The role ${role} is already in the list!`,
                     ephemeral: true,
                 });
             }
@@ -72,7 +72,7 @@ module.exports = class Roles extends Interaction {
             await data.save();
 
             return int.reply({
-                content: `Added role ${role.name} to the mod roles list!`,
+                content: `Added role ${role} to the mod roles list!`,
                 ephemeral: true,
             });
         }
@@ -90,7 +90,7 @@ module.exports = class Roles extends Interaction {
 
           if (!old)
             return int.reply({
-              content: `The role ${role.name} is not in the list!`,
+              content: `The role ${role} is not in the list!`,
               ephemeral: true,
             });
 
@@ -99,7 +99,7 @@ module.exports = class Roles extends Interaction {
           await data.save();
 
           return int.reply({
-            content: `Removed role ${role.name} from the mod roles list!`,
+            content: `Removed role ${role} from the mod roles list!`,
             ephemeral: true,
           });
         }

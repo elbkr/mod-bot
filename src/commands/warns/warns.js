@@ -36,7 +36,7 @@ module.exports = class Warns extends Interaction {
             guildID: int.guild.id,
         });
 
-        if (!warning) {
+        if (!warning || warning.warns.length <= 0) {
             return int.reply({
                 content: "That user doesn't have any warnings!",
                 ephemeral: true,

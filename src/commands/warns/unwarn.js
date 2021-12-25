@@ -14,9 +14,9 @@ module.exports = class Unwarn extends Interaction {
                     required: true,
                 },
                 {
-                    type: "4",
+                    type: "3",
                     name: "warn",
-                    description: "The ID of the warn to remove",
+                    description: "The ID of the warn. Type all to remove all warns",
                     required: true,
                 }
             ],
@@ -34,7 +34,7 @@ module.exports = class Unwarn extends Interaction {
         }
 
         const member = int.options.getMember("user");
-        const warn = int.options.getInteger("warn");
+        let warn = int.options.getString("warn");
 
         if(member.user.id === int.user.id) {
             return int.reply({
@@ -63,52 +63,90 @@ module.exports = class Unwarn extends Interaction {
             guildID: int.guild.id,
         });
 
-        if(!warning || !warning.warns.length) {
+        if(!warning || warning.warns.length <= 0) {
             return int.reply({
                 content: "That user doesn't have any warnings!",
                 ephemeral: true,
             });
         }
 
-        if(warn <= 0 || warn > warning.warns.length) {
+        if(warn === "all") {
+            warning.warns = [];
+            await warning.save();
+
+            if(data.modLogs) {
+                let modChannel = await int.guild.channels.fetch(data.modLogs);
+                if (modChannel) {
+                    let embed = new MessageEmbed()
+                        .setAuthor({
+                            name: `${int.user.username} ${int.member.nickname ? `(${int.member.nickname})` : ""}`,
+                            iconURL: `${int.user.avatarURL()}`
+                        })
+                        .setTitle("User unwarned")
+                        .setColor("#2f3136")
+                        .setDescription(`Warn: All`)
+                        .addFields(
+                            {name: "User", value: `${member}`, inline: true},
+                            {name: "Moderator", value: `${int.member}`, inline: true},
+                        )
+                        .setTimestamp();
+                    modChannel.send({embeds: [embed]});
+                }
+            }
+
             return int.reply({
-                content: "Provide a valid warn ID!",
+                content: `Successfully removed all warns from ${member}!`,
+                ephemeral: true,
+            });
+        } else {
+            if(isNaN(parseInt(warn))) {
+                return int.reply({
+                    content: "That's not a valid warning ID!",
+                    ephemeral: true,
+                });
+            }
+            warn = parseInt(warn);
+
+            if(warn <= 0 || warn > warning.warns.length) {
+                return int.reply({
+                    content: "Provide a valid warn ID!",
+                    ephemeral: true,
+                });
+            }
+
+            let old = warning.warns.find((w, i) => i === warn - 1);
+
+
+            let index =  warning.warns.indexOf(old);
+
+            if(data.modLogs) {
+                let modChannel = await int.guild.channels.fetch(data.modLogs);
+                if (modChannel) {
+                    let embed = new MessageEmbed()
+                        .setAuthor({
+                            name: `${int.user.username} ${int.member.nickname ? `(${int.member.nickname})` : ""}`,
+                            iconURL: `${int.user.avatarURL()}`
+                        })
+                        .setTitle("User unwarned")
+                        .setColor("#2f3136")
+                        .setDescription(`Warn: ${old.reason}`)
+                        .addFields(
+                            {name: "User", value: `${member}`, inline: true},
+                            {name: "Moderator", value: `${int.member}`, inline: true},
+                        )
+                        .setTimestamp();
+                    modChannel.send({embeds: [embed]});
+                }
+            }
+            warning.warns.splice(index, 1);
+
+            await warning.save();
+
+
+            return int.reply({
+                content: `Successfully removed warn \`${warn}\` from ${member}!`,
                 ephemeral: true,
             });
         }
-
-        let old = warning.warns.find((w, i) => i === warn - 1);
-
-
-        let index =  warning.warns.indexOf(old);
-
-        if(data.modLogs) {
-            let modChannel = await int.guild.channels.fetch(data.modLogs);
-            if (modChannel) {
-                let embed = new MessageEmbed()
-                    .setAuthor({
-                        name: `${int.user.username} ${int.member.nickname ? `(${int.member.nickname})` : ""}`,
-                        iconURL: `${int.user.avatarURL()}`
-                    })
-                    .setTitle("User unwarned")
-                    .setColor("#2f3136")
-                    .setDescription(`Warn: ${old.reason}`)
-                    .addFields(
-                        {name: "User", value: `${member}`, inline: true},
-                        {name: "Moderator", value: `${int.member}`, inline: true},
-                    )
-                    .setTimestamp();
-                modChannel.send({embeds: [embed]});
-            }
-        }
-        warning.warns.splice(index, 1);
-
-        await warning.save();
-
-
-        return int.reply({
-            content: `Successfully removed warn \`${warn}\` from ${member}!`,
-            ephemeral: true,
-        });
     }
 };

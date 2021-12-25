@@ -15,7 +15,6 @@ module.exports = class GuildBanRemove extends Event {
             if (channel) {
                 let emb = new MessageEmbed()
                     .setColor("#70ec46")
-                    .setAuthor({name:`${ban.user.username}`, iconURL: `${ban.user.avatarURL()}`})
                     .setTitle("User Unbanned")
                     .setDescription(`**${ban.user.tag}** has been unbanned`)
                     .addField(`User`, `${ban.user}`, true)
